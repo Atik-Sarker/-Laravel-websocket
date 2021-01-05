@@ -2,25 +2,26 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Controllers\Controller;
+use App\Events\ChatEvent;
 use Illuminate\Http\Request;
-use App\Events\TestEvent;
 use App\Models\User;
 
 class ChatController extends Controller
 {
     public function index(){
 
-        $p = ['msg'=> 'data send'];
+        return view('chat');
+
+        $message = ['msg'=> 'data send'];
 
         try {
 
             info('=== Hello  ========');
-            event(new TestEvent($p));
+//            event(new ChatEvent($message, 1));
             // return response('Event has been fired Successfully!', 200)
             //       ->header('Content-Type', 'text/json');
 
-            return view('chat');
+
 
           } catch(\Exception $e) {
              info('Error'. $e->getMessage());
@@ -29,4 +30,15 @@ class ChatController extends Controller
           }
         // return view('test');
     }
+    public function Send(Request $request){
+        info('=== Hello  ========');
+        $user = User::find(auth()->id());
+        event(new ChatEvent($request->message, $user));
+        return response()->json(['success'=> true]);
+    }
+//    public function Send(Request $request){
+//        info('=== Hello  ========');
+//        $user = User::find(auth()->id());
+//        event(new ChatEvent($request->message, $user));
+//    }
 }

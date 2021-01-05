@@ -9,20 +9,21 @@
 </head>
 <body>
 
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-12">
-                <h1>Chat Room</h1>
-            </div>
+<div class="container">
+    <div class="row">
+        <div class="col-lg-12">
+            <h1>Chat Room</h1>
+        </div>
         <div id="app">
             <div class="row">
                 <div class="col-lg-8">
-                    <chat></chat>
+                    <chat color="success"></chat>
                 </div>
             </div>
         </div>
     </div>
+</div>
 
-    <script src="{{ mix('js/app.js') }}"></script>
+<script src="{{ mix('js/app.js') }}"></script>
 </body>
 </html>

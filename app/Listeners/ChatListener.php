@@ -2,11 +2,11 @@
 
 namespace App\Listeners;
 
-use App\Events\TestEvent;
+use App\Events\ChatEvent;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
 
-class SendTestNotification
+class ChatListener
 {
 
     /**
@@ -25,7 +25,7 @@ class SendTestNotification
      * @param  TestEvent  $event
      * @return void
      */
-    public function handle(TestEvent $event)
+    public function handle(ChatEvent $event)
     {
 		info('=== SendTestNotification  ========');
     }

@@ -3869,7 +3869,9 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
+  props: ['color'],
   data: function data() {
     return {
       message: "",
@@ -3878,24 +3880,51 @@ __webpack_require__.r(__webpack_exports__);
       }
     };
   },
+  computed: {
+    ClassName: function ClassName() {
+      return 'list-group-item-' + this.color;
+    }
+  },
   methods: {
     send: function send() {
       if (this.message.length > 0) {
-        this.chat.message.push(this.message);
-        this.message = '';
-        console.log(this.message);
+        // this.chat.message.push(this.message);
+        // Make a request for a user with a given ID
+        var self = this;
+        axios.post('/send', {
+          message: this.message
+        }).then(function (response) {
+          // handle success
+          // self.chat.message.push(response.data.message);
+          self.message = ''; // console.log(response.data);
+        })["catch"](function (error) {
+          // handle error
+          console.log(error);
+        }).then(function () {// always executed
+        });
       }
     }
   },
   mounted: function mounted() {
-    Echo.join("chat").here(function (users) {
-      console.log(users);
-    }).joining(function (user) {
-      console.log("".concat(user.name, " joined"));
-    }).leaving(function (user) {
-      console.log("".concat(user.name, " Leaved"));
+    var _this = this;
+
+    Echo["private"]("chat").listen('ChatEvent', function (e) {
+      _this.chat.message.push(e.message);
+
+      _this.chat.user.push(e.user);
     });
-  }
+  } //   Echo.join(`chat`)
+  //     .here((users) => {
+  //       console.log(users);
+  //     })
+  //     .joining((user) => {
+  //       console.log(`${user.name} joined`);
+  //     })
+  //     .leaving((user) => {
+  //       console.log(`${user.name} Leaved`);
+  //     });
+  // },
+
 });
 
 /***/ }),
@@ -3912,7 +3941,7 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 
 // module
-exports.push([module.i, ".list-group[data-v-151b8bba] {\n  max-height: 300px;\n  overflow-y: auto;\n}", ""]);
+exports.push([module.i, ".list-group[data-v-151b8bba] {\n  max-height: 300px;\n  overflow-y: auto;\n}\n\n/* Hide scrollbar for Chrome, Safari and Opera */\n.list-group[data-v-151b8bba]::-webkit-scrollbar {\n  display: none;\n}\n\n/* Hide scrollbar for IE, Edge and Firefox */\n.list-group[data-v-151b8bba] {\n  -ms-overflow-style: none;\n  /* IE and Edge */\n  scrollbar-width: none;\n  /* Firefox */\n}", ""]);
 
 // exports
 
@@ -28412,16 +28441,29 @@ var render = function() {
           {
             name: "chat-scroll",
             rawName: "v-chat-scroll",
-            value: { always: false, smooth: true },
-            expression: "{always: false, smooth: true}"
+            value: {
+              always: false,
+              smooth: true,
+              scrollonremoved: true,
+              smoothonremoved: false
+            },
+            expression:
+              "{always: false, smooth: true, scrollonremoved:true, smoothonremoved: false}"
           }
         ],
         staticClass: "list-group pb-2"
       },
       _vm._l(_vm.chat.message, function(value, index) {
-        return _c("li", { key: index, staticClass: "list-group-item" }, [
-          _vm._v(_vm._s(value))
-        ])
+        return _c(
+          "li",
+          { key: index, staticClass: "list-group-item", class: _vm.ClassName },
+          [
+            _vm._v(_vm._s(value)),
+            _c("small", { staticClass: "badge float-end text-warning" }, [
+              _vm._v("you")
+            ])
+          ]
+        )
       }),
       0
     ),
