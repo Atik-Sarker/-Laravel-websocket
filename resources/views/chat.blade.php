@@ -17,7 +17,7 @@
         <div id="app">
             <div class="row">
                 <div class="col-lg-8">
-                    <example-component></example-component>
+                    <chat></chat>
                 </div>
             </div>
         </div>

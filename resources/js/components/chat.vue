@@ -1,6 +1,6 @@
 <template>
   <div>
-    <ul class="list-group pb-2">
+    <ul class="list-group pb-2" v-chat-scroll="{always: false, smooth: true}">
       <li class="list-group-item" v-for="(value, index) in chat.message" :key="index">{{value}}</li>
     </ul>
     <input type="text" v-model="message" placeholder="type your message" class="form-control" v-on:keyup.enter="send">
@@ -43,4 +43,8 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+  .list-group{
+    max-height: 300px;
+    overflow-y: auto;
+  }
 </style>

@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 use App\Events\TestEvent;
 use App\Models\User;
 
-class TestController extends Controller
+class ChatController extends Controller
 {
     public function index(){
 
